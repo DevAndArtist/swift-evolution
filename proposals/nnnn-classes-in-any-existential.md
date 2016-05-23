@@ -117,12 +117,12 @@ Existentials cannot be used as part of the `superclass`/`protocol` conformance p
 	// We could allow this someday, but not with this proposal!!!
 	protocol B: any<UIView, SomeProtocol> {}
 	
-	// Equivalent version:
+	// Equivalent version today:
 	protocol A {}
-	extension A where Self == UIView {}
+	extension A where Self: UIView {}
 	
 	protocol B {}
-	extension B where Self == any<UIView, SomeProtocol> {}
+	extension B where Self: UIView, Self: SomeProtocol {}
 	```
 		
 ### Nested `any<...>`	
@@ -158,11 +158,12 @@ Any `any<...>` containing nested `any<...>`s can be conceptually 'flattened' and
 
 ## Impact on existing code
 
-These changes will break existing code. Projects using old style `protocol<...>` mechanism will need to migrate to the new `any<...>` mechanism. The code using old style `protocol<...>` won't compile until updated to the new conventions.
+In this proposal only `protocol NAME: class {}` replacement `protocol NAME: any<class> {}` will break existing code.
 
 ## Alternatives considered
 
 * Defer this enhancement to a future version of Swift or find a better way to solve the mentioned problem.
+* Leave `protocol NAME: class {}` as is and allow `protocol NAME: any<class> {}` as a secondary alternative.
 
 ## Future directions
 
