@@ -56,7 +56,9 @@ We abolish `.Type` and `.Protocol` in favor of two generic-style syntaxes:
   * If `T` is a class, then `Type<T>` and the `Type`s of all subclasses of `T` are subtypes of `Subtype<T>`.
   * If `T` is a protocol, then the `Type`s of all concrete types conforming to `T` are subtypes of `Subtype<T>`. `Type<T>` is not itself a subtype of `Subtype<T>`, or of any `Subtype` other than `Subtype<Any>`.
 
-* Structural types follow the subtype/supertype relationships of their constituent types. For instance, `Type<(NSString, NSString)>` is a subtype of `Subtype<(NSObject, NSObject)>`, and `Type<(Int) -> Void>` is a subtype of `Subtype<(Any) -> Void>`
+* Structural types follow the subtype/supertype relationships of their constituent types. For instance:
+  * `Type<(NSString, NSString)>` is a subtype of `Subtype<(NSObject, NSObject)>`
+  * `Type<(Int) -> Void>` is a subtype of `Subtype<(Any) -> Void>`
 
 In this new notation, some of our existing standard library functions would have signatures like:
 
