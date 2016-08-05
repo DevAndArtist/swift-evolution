@@ -66,9 +66,9 @@ That last example, `type(of:)`, is rather interesting, because it is actually a 
 
 ```swift
 let instance: NSObject = NSString()
-let class: Subtype<NSObject> = Subtype(of: instance)
+let someClass: Subtype<NSObject> = Subtype(of: instance)
 
-print(class) // => NSString
+print(someClass) // => NSString
 ```
 
 <details><summary>**Example: visual metatype relationship**</summary>
