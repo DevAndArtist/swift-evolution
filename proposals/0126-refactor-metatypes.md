@@ -60,7 +60,6 @@ In this new notation, some of our existing standard library functions would have
 
 ```swift
 func unsafeBitCast<T, U>(_: T, to type: Type<U>) -> U
-func sizeof<T>(_: Type<T>) -> Int
 func ==(t0: Subtype<Any>?, t1: Subtype<Any>?) -> Bool
 func type<T>(of: T) -> Subtype<T> // SE-0096
 ```
