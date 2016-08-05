@@ -49,9 +49,12 @@ We also believe that, in the long term, the dot syntax will prevent us from impl
 
 We abolish `.Type` and `.Protocol` in favor of two generic-style syntaxes:
 
-* `Type<T>` is the concrete type of `T.self`. A `Type<T>` can only ever accept that one specific type, not any of its subtypes. If `T` is a protocol `P`, than the only supertype for `Type<P>` is `Subtype<Any>`. To be crystal clear here, `Type<P>` is not a subtype of `Subtype<P>`.
-
-* `Subtype<T>` is the supertype of all `Type`s whose instances are subtypes of `T`. If `T` is a class, `Subtype<T>` would accept a `Type` for any of its subclasses. If `T` is a protocol, `Subtype<T>` would accept a `Type` for any conforming concrete type.
+* `Type<T>` is the concrete type of `T.self`. A `Type<T>` only ever has one instance, `T.self`; even if `T` has a subtype `U`, `Type<U>` is not a subtype of `Type<T>`.
+ 
+* `Subtype<T>` is the supertype of all `Type`s whose instances are subtypes of `T`, including `T` itself:
+  * If `T` is a struct or enum, then `Type<T>` is the only subtype of `Subtype<T>`.
+  * If `T` is a class, then `Type<T>` and the `Type`s of all subclasses of `T` are subtypes of `Subtype<T>`.
+  * If `T` is a protocol, then the `Type`s of all concrete types conforming to `T` are subtypes of `Subtype<T>`. `Type<T>` is not itself a subtype of `Subtype<T>`, or of any `Subtype` other than `Subtype<Any>`.
 
 In this new notation, some of our existing standard library functions would have signatures like:
 
