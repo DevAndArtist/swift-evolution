@@ -56,6 +56,8 @@ We abolish `.Type` and `.Protocol` in favor of two generic-style syntaxes:
   * If `T` is a class, then `Type<T>` and the `Type`s of all subclasses of `T` are subtypes of `Subtype<T>`.
   * If `T` is a protocol, then the `Type`s of all concrete types conforming to `T` are subtypes of `Subtype<T>`. `Type<T>` is not itself a subtype of `Subtype<T>`, or of any `Subtype` other than `Subtype<Any>`.
 
+* Structural types follow the subtype/supertype relationships of their constituent types. For instance, `Type<(NSString, NSString)>` is a subtype of `Subtype<(NSObject, NSObject)>`, and `Type<(Int) -> Void>` is a subtype of `Subtype<(Any) -> Void>`
+
 In this new notation, some of our existing standard library functions would have signatures like:
 
 ```swift
@@ -67,10 +69,10 @@ func type<T>(of: T) -> Subtype<T> // SE-0096
 That last example, `type(of:)`, is rather interesting, because it is actually a magic syntax rather than a function. We propose to align this syntax with `Type` and `Subtype` by renaming it to `Subtype(of:)`. We believe this is clearer about both the type and meaning of the operation.
 
 ```swift
-let instance: NSObject = NSString()
-let someClass: Subtype<NSObject> = Subtype(of: instance)
+let anInstance: NSObject = NSString()
+let aClass: Subtype<NSObject> = Subtype(of: anInstance)
 
-print(someClass) // => NSString
+print(aClass) // => NSString
 ```
 
 <details><summary>**Example: visual metatype relationship**</summary>
