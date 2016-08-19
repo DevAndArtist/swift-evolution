@@ -58,7 +58,7 @@ We abolish `.Type` and `.Protocol` in favor of two generic-style syntaxes:
 
 * Structural types follow the subtype/supertype relationships of their constituent types. For instance:
   * `Type<(NSString, NSString)>` is a subtype of `Subtype<(NSObject, NSObject)>`
-  * Metatypes of functions are a little bit more special ([the subtyping relation on functions flips around for parameter types](https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)))
+  * Metatypes of functions are a little bit more special ([the subtyping relation on functions flips around for parameter types](https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science))):
   
     * `Type<(Any) -> Void>` is a subtype of `Subtype<(Int) -> Void>` etc.
     * `Type<(()) -> Int>` is a subtype of `Subtype<(()) -> Any>`
