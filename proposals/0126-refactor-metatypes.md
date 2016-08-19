@@ -77,88 +77,161 @@ let aClass: Subtype<NSObject> = Subtype(of: anInstance)
 print(aClass) // => NSString
 ```
 
-<details><summary>**Example: visual metatype relationship**</summary>
+details><summary>**More details on `Type`s and `Subtype`s**</summary>
+* Every static or class member of `T` which can be called on all subtypes is an instance member of `Subtype<T>`. That includes:
 
-Types:
+  * Static/class properties and methods
+  * Required initializers (as methods named `init`)
+  * Unbound instance methods
 
-```swift
-protocol P     { static func foo() }
-protocol R : P { static func boo() }
-class A : P    { static func foo() { ... } }
-class B : A, R { static func boo() { ... } }
-```
+* The `Type<T>` of a concrete type `T` has all of the members required by `Subtype<T>`, plus non-required initializers.
 
-`Subtype` relationship (not a valid Swift code):
+* The `Type<T>` of a protocol `T` includes only unbound instance methods of `T`.
 
-```swift
-Subtype<Any> {
-  var self: Self { get }
-}
+* If `T` conforms to `P`, then `Subtype<T>` is a subtype of `Subtype<P>`, even if `T` is a protocol.
 
-Subtype<P> : Subtype<Any> {
-  func foo() 
-}
+* The type of `Subtype<T>.self` is `Type<Subtype<T>>`.
+* The type of `Type<T>.self` is `Type<Type<T>>`, which is not a subtype of any type except `Subtype<Type<T>>`. There is an infinite regress of `Type<...<Type<T>>>`s.
 
-Subtype<R> : Subtype<P> { 
-  func boo() 
-}
+* `Subtype`s are abstract types similar to class-bound protocols; they, too, support identity operations. 
 
-Subtype<A> : Subtype<P> { }
+* `Type`s are concrete reference types which have identities just like objects do.
 
-Subtype<B> : Subtype<A>, Subtype<R> { }
-```
-
-`Type` relationship (not a valid Swift code):
-
-```swift
-// `Type` of a protocol is blind
-Type<P> : Subtype<Any> { } 
-
-// `Type` of a protocol is blind
-Type<R> : Subtype<Any> { } 
-
-Type<A> : Subtype<A> { }
-
-Type<B> : Subtype<B> { }
-```
-
-Example:
-
-```swift
-let a1: Type<A> = A.self    // Okay
-let p1: Type<P> = P.self    // Okay
-let p2: Type<P> = C.self    // Error -- `C` is not the same as `P`
-
-let any_1: Subtype<Any> = A.self // Okay
-let any_2: Subtype<Any> = P.self // Okay
-
-let a_1: Subtype<A> = A.self     // Okay
-let p_1: Subtype<P> = A.self     // Okay
-let p_2: Subtype<P> = P.self     // Error -- `Type<P>` is not a subtype of `Subtype<P>`
-```
-
+ ```swift
+ Int.self === Int.self // true
+ Int.self === Any.self // false
+ ```
 </details>
-
-<details><summary>**Example: generic functions**</summary>
-
+<details><summary>**Visual metatype relationship example (not a valid Swift code)**</summary>
 ```swift
-func dynamic<T>(type: Subtype<Any>, is _: Type<T>) -> Bool {
+protocol Foo { 
+  static func foo() 
+  func instanceMethodFoo()
+}
+
+protocol Boo : Foo { 
+  static func foo()
+  static func boo() 
+  func instanceMethodFoo()
+  func instanceMethodBoo()
+}
+
+class A : Foo { 
+  static func foo() { ... } 
+  func instanceMethodFoo() { ... }
+}
+
+class B : A, Boo { 
+  static func boo() { ... } 
+  func instanceMethodBoo() { ... }
+}
+
+/// Swift generates metatypes along the lines of:
+///
+/// Syntax: `meta protocol Subtype<T>` - only metatypes can conform to these meta protocols
+/// Syntax: `final meta class Type<T>` - metatype
+/// Note: `CapturedType` represents `Self` of `T` in `Subtype<T>`
+
+// For Any:
+meta protocol Subtype<Any> : meta class {
+  var `self`: Self { get }
+}
+
+final meta class Type<Any> : Subtype<Any> {
+  var `self`: Type<Any> { ... }
+}
+
+// For Foo:
+meta protocol Subtype<Foo> : Subtype<Any> {
+  var `self`: Self { get }
+  func foo()
+  func instanceMethodFoo(_ `self`: CapturedType) -> (()) -> ()
+}
+
+final meta class Type<Foo> : Subtype<Any> {
+  var `self`: Type<Foo> { ... }
+  func instanceMethodFoo(_ `self`: Foo) -> (()) -> () { ... }
+}
+
+// For Boo:
+meta protocol Subtype<Boo> : Subtype<Foo> {
+  var `self`: Self { get }
+  func boo()
+  func instanceMethodBoo(_ `self`: CapturedType) -> (()) -> ()
+}
+
+final meta class Type<Boo> : Subtype<Any> {
+  var `self`: Type<Boo> { ... }
+  func instanceMethodFoo(_ `self`: Boo) -> (()) -> () { ... } 
+  func instanceMethodBoo(_ `self`: Boo) -> (()) -> () { ... } 
+}
+
+// For A:
+meta protocol Subtype<A> : Subtype<Foo> {
+  var `self`: Self { get }
+  func foo()
+  func instanceMethodFoo(_ `self`: CapturedType) -> (()) -> ()
+}
+
+final meta class Type<A> : Subtype<A> {
+  var `self`: Type<A> { ... }
+  func foo() { ... }
+  func instanceMethodFoo(_ `self`: A) -> (()) -> () { ... }
+}
+
+// For B:
+meta protocol Subtype<B> : Subtype<A>, Subtype<Boo> {
+  var `self`: Self
+  func foo()
+  func boo()
+  func instanceMethodFoo(_ `self`: CapturedType) -> (()) -> ()
+  func instanceMethodBoo(_ `self`: CapturedType) -> (()) -> ()
+}
+
+final meta class Type<B> : Subtype<B> {
+  var `self`: Type<B> { ... }
+  func foo() { ... }
+  func boo() { ... }
+  func instanceMethodFoo(_ `self`: B) -> (()) -> () { ... }
+  func instanceMethodBoo(_ `self`: B) -> (()) -> () { ... }
+}
+```
+</details>
+<details><summary>**Some examples**</summary>
+```swift
+// Types:
+protocol Foo {}
+protocol Boo : Foo {}
+class A : Foo {}
+class B : A, Boo {}
+struct S: Foo {}
+
+// Metatypes:
+let a1: Type<A> = A.self           //=> Okay
+let p1: Type<Foo> = Foo.self       //=> Okay
+let p2: Type<Boo> = C.self         //=> Error -- `C` is not the same as `Foo`
+
+let any_1: Subtype<Any> = A.self   //=> Okay
+let any_2: Subtype<Any> = Foo.self //=> Okay
+
+let a_1: Subtype<A> = A.self       //=> Okay
+let p_1: Subtype<Foo> = A.self     //=> Okay
+let p_2: Subtype<Foo> = Foo.self   //=> Error -- `Type<Foo>` is not a subtype of `Subtype<Foo>`
+
+// Generic functions:
+func dynamic<T>(subtype: Subtype<Any>, `is` _: Type<T>) -> Bool {
   return type is Subtype<T>
 }
 
-func dynamic<T>(type: Subtype<Any>, as _: Type<T>) -> Subtype<T>? {
+func dynamic<T>(subtype: Subtype<Any>, `as` _: Type<T>) -> Subtype<T>? {
   return type as? Subtype<T>
 }
 
-protocol Proto {}
-struct Struct: Proto {}
+let s1: Type<S> = S.self
 
-let s1: Type<Struct> = Struct.self
-
-dynamic(type: s1, is: Proto.self) //=> true
-dynamic(type: s1, as: Proto.self) //=> an `Optional<Subtype<Proto>>`
+dynamic(subtype: s1, is: Foo.self)    //=> true
+dynamic(subtype: s1, as: Foo.self)    //=> an `Optional<Subtype<Foo>>`
 ```
-
 </details>
 
 ##Future Directions
