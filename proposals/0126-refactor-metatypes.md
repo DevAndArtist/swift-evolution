@@ -61,7 +61,7 @@ We abolish `.Type` and `.Protocol` in favor of two generic-style syntaxes:
   * Metatypes of functions are a little bit more special ([the subtyping relation on functions flips around for parameter types](https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science))):
   
     * `Type<(Any) -> Void>` is a subtype of `Subtype<(Int) -> Void>` etc.
-    * `Type<(()) -> Int>` is a subtype of `Subtype<(()) -> Any>`
+    * `Type<(Void) -> Int>` is a subtype of `Subtype<(Void) -> Any>`
 
 In this new notation, some of our existing standard library functions would have signatures like:
 
@@ -148,38 +148,38 @@ final meta class Type<Any> : Subtype<Any> {
 meta protocol Subtype<Foo> : Subtype<Any> {
   var `self`: Self { get }
   func foo()
-  func instanceMethodFoo(_ `self`: CapturedType) -> (()) -> ()
+  func instanceMethodFoo(_ `self`: CapturedType) -> (Void) -> Void
 }
 
 final meta class Type<Foo> : Subtype<Any> {
   var `self`: Type<Foo> { ... }
-  func instanceMethodFoo(_ `self`: Foo) -> (()) -> () { ... }
+  func instanceMethodFoo(_ `self`: Foo) -> (Void) -> Void { ... }
 }
 
 // For Boo:
 meta protocol Subtype<Boo> : Subtype<Foo> {
   var `self`: Self { get }
   func boo()
-  func instanceMethodBoo(_ `self`: CapturedType) -> (()) -> ()
+  func instanceMethodBoo(_ `self`: CapturedType) -> (Void) -> Void
 }
 
 final meta class Type<Boo> : Subtype<Any> {
   var `self`: Type<Boo> { ... }
-  func instanceMethodFoo(_ `self`: Boo) -> (()) -> () { ... } 
-  func instanceMethodBoo(_ `self`: Boo) -> (()) -> () { ... } 
+  func instanceMethodFoo(_ `self`: Boo) -> (Void) -> Void { ... } 
+  func instanceMethodBoo(_ `self`: Boo) -> (Void) -> Void { ... } 
 }
 
 // For A:
 meta protocol Subtype<A> : Subtype<Foo> {
   var `self`: Self { get }
   func foo()
-  func instanceMethodFoo(_ `self`: CapturedType) -> (()) -> ()
+  func instanceMethodFoo(_ `self`: CapturedType) -> (Void) -> Void
 }
 
 final meta class Type<A> : Subtype<A> {
   var `self`: Type<A> { ... }
   func foo() { ... }
-  func instanceMethodFoo(_ `self`: A) -> (()) -> () { ... }
+  func instanceMethodFoo(_ `self`: A) -> (Void) -> Void { ... }
 }
 
 // For B:
@@ -187,16 +187,16 @@ meta protocol Subtype<B> : Subtype<A>, Subtype<Boo> {
   var `self`: Self
   func foo()
   func boo()
-  func instanceMethodFoo(_ `self`: CapturedType) -> (()) -> ()
-  func instanceMethodBoo(_ `self`: CapturedType) -> (()) -> ()
+  func instanceMethodFoo(_ `self`: CapturedType) -> (Void) -> Void
+  func instanceMethodBoo(_ `self`: CapturedType) -> (Void) -> Void
 }
 
 final meta class Type<B> : Subtype<B> {
   var `self`: Type<B> { ... }
   func foo() { ... }
   func boo() { ... }
-  func instanceMethodFoo(_ `self`: B) -> (()) -> () { ... }
-  func instanceMethodBoo(_ `self`: B) -> (()) -> () { ... }
+  func instanceMethodFoo(_ `self`: B) -> (Void) -> Void { ... }
+  func instanceMethodBoo(_ `self`: B) -> (Void) -> Void { ... }
 }
 ```
 </details>
