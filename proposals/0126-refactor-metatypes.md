@@ -80,7 +80,7 @@ let aClass: Subtype<NSObject> = Subtype(of: anInstance)
 print(aClass) // => NSString
 ```
 
-<details><summary>**More details on `Type`s and `Subtype`s**</summary>
+#### More details:
 * Every static or class member of `T` which can be called on all subtypes is an instance member of `Subtype<T>`. That includes:
 
   * Static/class properties and methods
@@ -104,7 +104,6 @@ print(aClass) // => NSString
  Int.self === Int.self // true
  Int.self === Any.self // false
  ```
-</details>
 <details><summary>**Visual metatype relationship example (not a valid Swift code)**</summary>
 ```swift
 protocol Foo { 
