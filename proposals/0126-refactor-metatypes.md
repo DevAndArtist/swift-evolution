@@ -104,6 +104,7 @@ print(aClass) // => NSString
  Int.self === Int.self // true
  Int.self === Any.self // false
  ```
+ 
 <details><summary>**Visual metatype relationship example (not a valid Swift code)**</summary>
 ```swift
 protocol Foo { 
