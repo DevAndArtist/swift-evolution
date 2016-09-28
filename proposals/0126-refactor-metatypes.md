@@ -13,7 +13,7 @@ This proposal removes `.Type` and `.Protocol` in favor of two generic-style synt
 
 Swift-evolution thread (post Swift 3): 
 
-* [\[Pitch\] Refactor Metatypes]()
+* [\[Pitch\] Refactor Metatypes](https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160926/027341.html)
 
 Older swift-evolution threads: [\[1\]](https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160718/025115.html), [\[2\]](https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160718/024772.html), [\[3\]](https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160704/023818.html)
 
