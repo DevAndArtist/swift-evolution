@@ -11,12 +11,11 @@
 
 This proposal removes `.Type` and `.Protocol` in favor of two generic-style syntaxes and aligns global `type(of:)` function (SE-0096) to match the changes.
 
-Swift-evolution threads: 
+Swift-evolution thread (post Swift 3): 
 
-* [\[Revision\] \[Pitch\] Rename `T.Type`](https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160718/025115.html)
-* [\[Review\] SE-0126: Refactor Metatypes, repurpose T[dot]self and Mirror]()
-* [\[Proposal\] Refactor Metatypes, repurpose T[dot]self and Mirror](https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160718/024772.html) 
-* [\[Discussion\] Seal `T.Type` into `Type<T>`](https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160704/023818.html)
+* [\[Pitch\] Refactor Metatypes]()
+
+Older swift-evolution threads: [\[1\]](https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160718/025115.html), [\[2\]](https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160718/024772.html), [\[3\]](https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160704/023818.html)
 
 ## Motivation
 
@@ -106,6 +105,7 @@ print(aClass) // => NSString
  ```
  
 <details><summary>**Visual metatype relationship example (not a valid Swift code)**</summary>
+
 ```swift
 protocol Foo { 
   static func foo() 
@@ -200,7 +200,9 @@ final meta class Type<B> : Subtype<B> {
 }
 ```
 </details>
+
 <details><summary>**Some examples**</summary>
+
 ```swift
 // Types:
 protocol Foo {}
