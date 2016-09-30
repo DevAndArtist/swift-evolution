@@ -209,7 +209,7 @@ protocol Foo {}
 protocol Boo : Foo {}
 class A : Foo {}
 class B : A, Boo {}
-struct S: Foo {}
+struct S : Foo {}
 
 // Metatypes:
 let a1: Type<A> = A.self           //=> Okay
@@ -225,11 +225,11 @@ let p_2: Subtype<Foo> = Foo.self   //=> Error -- `Type<Foo>` is not a subtype of
 
 // Generic functions:
 func dynamic<T>(subtype: Subtype<Any>, `is` _: Type<T>) -> Bool {
-  return type is Subtype<T>
+  return subtype is Subtype<T>
 }
 
 func dynamic<T>(subtype: Subtype<Any>, `as` _: Type<T>) -> Subtype<T>? {
-  return type as? Subtype<T>
+  return subtype as? Subtype<T>
 }
 
 let s1: Type<S> = S.self
