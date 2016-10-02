@@ -252,7 +252,7 @@ dynamic(type: s1, as: Foo.self)    //=> an `Optional<AnyType<Foo>>`
 	func AnyType<T : AnyObject>(of type: Type<T>, named: String) -> AnyType<T>? { ... }
 	
 	// Global function
-	func type<T : AnyObject>(of type: Type<T>, named: String) -> AnyType<T>? { ... }
+	func subtype<T : AnyObject>(of type: Type<T>, named: String) -> AnyType<T>? { ... }
 	```
 
 * We could offer other reflection and dynamic features on `Type` and `AnyType`.
