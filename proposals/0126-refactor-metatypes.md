@@ -245,13 +245,9 @@ dynamic(type: s1, as: Foo.self)    //=> an `Optional<AnyType<Foo>>`
 
 * It may be possible to implement parts of `Type` as a fairly ordinary final class, moving code from the runtime into the standard library.
 
-* We could offer an `AnyType` pseudo-initializer or a new global function which would allow type-safe access to classes by name.
+* We could offer a new global function which would allow type-safe access to classes by name.
 
 	```swift
-	// Pseudo-initializer
-	func AnyType<T : AnyObject>(of type: Type<T>, named: String) -> AnyType<T>? { ... }
-	
-	// Global function
 	func subtype<T : AnyObject>(of type: Type<T>, named: String) -> AnyType<T>? { ... }
 	```
 
