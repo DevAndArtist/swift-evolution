@@ -276,4 +276,4 @@ We suggest the following migration process; this can differ from the final migra
 Other names for `Type` and `AnyType` were considered:
 
 * Type: SpecificType, Metatype or ExactType.
-* Subtype: Subtype, Supertype, Base, BaseType, ExistentialType, ExistentialMetatype or TypeProtocol.
+* AnyType: Subtype, Supertype, Base, BaseType, ExistentialType, ExistentialMetatype or TypeProtocol.
