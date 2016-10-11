@@ -4,8 +4,7 @@
 * Authors: [Adrian Zubarev](https://github.com/DevAndArtist), [Anton Zhilin](https://github.com/Anton3), [Brent Royal-Gordon](https://github.com/brentdax)
 * Status: **Revision**
 * Review manager: [Chris Lattner](http://github.com/lattner)
-* Revision: 2
-* Previous Revisions: [1](https://github.com/apple/swift-evolution/blob/83707b0879c83dcde778f8163f5768212736fdc2/proposals/0126-refactor-metatypes-repurpose-t-dot-self-and-mirror.md)
+* Previous Revision: [1](https://github.com/apple/swift-evolution/blob/83707b0879c83dcde778f8163f5768212736fdc2/proposals/0126-refactor-metatypes-repurpose-t-dot-self-and-mirror.md)
 
 ## Introduction
 
@@ -255,7 +254,7 @@ dynamic(type: s1, as: Foo.self)    //=> an `Optional<AnyType<Foo>>`
 
 * We could move the `MemoryLayout` members into `Type` (presumably prefixed), removing the rather artificial `MemoryLayout` enum.
 
-## Impact on existing code
+## Source compatibility
 
 This is a source-breaking change that can be automated by a migrator. 
 
@@ -268,6 +267,16 @@ We suggest the following migration process; this can differ from the final migra
 * If static members are called on a metatype instance, then this instance is migrated to `AnyType<T>`.
 * Return types of functions are migrated to `AnyType<T>`.
 * Variable declarations is migrated to `AnyType<T>`.
+
+**Todo.**
+
+## Effect on ABI stability
+
+**Todo.**
+
+## Effect on API resilience
+
+**Todo.**
 
 ## Alternatives considered
 
