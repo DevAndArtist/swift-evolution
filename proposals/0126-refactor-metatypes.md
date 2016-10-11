@@ -255,8 +255,6 @@ dynamic(type: s1, as: Foo.self)    //=> an `Optional<AnyType<Foo>>`
 
 * We could move the `MemoryLayout` members into `Type` (presumably prefixed), removing the rather artificial `MemoryLayout` enum.
 
-* ~~Along with other generics enhancements, there may be a use for a `Subprotocol<T>` syntax for any protocol requiring conformance to protocol `T`.~~
-
 ## Impact on existing code
 
 This is a source-breaking change that can be automated by a migrator. 
