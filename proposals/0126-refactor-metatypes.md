@@ -66,7 +66,7 @@ In this new notation, some of our existing standard library functions would have
 ```swift
 func unsafeBitCast<T, U>(_: T, to type: Type<U>) -> U
 func ==(t0: AnyType<Any>?, t1: AnyType<Any>?) -> Bool
-func type<T>(of instace: T) -> AnyType<T> // SE-0096
+func type<T>(of instance: T) -> AnyType<T> // SE-0096
 ```
 
 That last example, `type(of:)`, is rather interesting, because it is actually a magic syntax rather than a function. We propose to align this syntax with `Type` and `AnyType` by correcting the return type to `AnyType<T>`. We believe this is clearer about both the type and meaning of the operation.
