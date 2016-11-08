@@ -268,16 +268,6 @@ We suggest the following migration process; this can differ from the final migra
 * Return types of functions are migrated to `AnyType<T>`.
 * Variable declarations is migrated to `AnyType<T>`.
 
-**Todo.**
-
-## Effect on ABI stability
-
-**Todo.**
-
-## Effect on API resilience
-
-**Todo.**
-
 ## Alternatives considered
 
 Other names for `Type` and `AnyType` were considered:
