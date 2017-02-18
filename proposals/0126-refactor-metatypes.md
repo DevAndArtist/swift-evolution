@@ -273,4 +273,6 @@ We suggest the following migration process; this can differ from the final migra
 Other names for `Type` and `AnyType` were considered:
 
 * Type: SpecificType, Metatype or ExactType.
-* AnyType: Subtype, Supertype, Base, BaseType, ExistentialType, ExistentialMetatype or TypeProtocol.
+* AnyType: Subtype, Supertype, Base, BaseType, AnyMetatype, ExistentialType, ExistentialMetatype or TypeProtocol.
+
+Assuming that the accepted proposal decides to use **`Metatype<T>`**, **`AnyMetatype<T>`** over **`Type<T>`** and **`AnyType<T>`** would imply that the type `Type` would no longer be ambiguous to use in custome modules. However, such naming choice will affect the `type(of:)` function. It *might* be necessary to align the function name to `metatype(of:)` to avoid any confusion, which will result in another breaking change. Alternatively we could leave the function as `func type<T>(of instance: T) -> AnyMetatype<T>`.
