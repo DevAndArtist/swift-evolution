@@ -43,7 +43,7 @@ We also believe that, in the long term, the dot syntax will prevent us from impl
 * Conforming metatypes to protocols like `Hashable` or `CustomStringConvertible`.
 * Offering straightforward syntaxes for dynamic features like looking up types by name.
 
-##Proposed solution
+## Proposed solution
 
 We abolish `.Type` and `.Protocol` in favor of two generic-style syntaxes:
 
@@ -103,7 +103,7 @@ print(aClass) // => NSString
  Int.self === Any.self // false
  ```
  
-<details><summary>**Visual metatype relationship example (not a valid Swift code)**</summary>
+<details><summary>Visual metatype relationship example (not a valid Swift code)</summary>
 
 ```swift
 protocol Foo { 
@@ -200,7 +200,7 @@ final meta class Type<B> : AnyType<B> {
 ```
 </details>
 
-<details><summary>**Some examples**</summary>
+<details><summary>Some examples</summary>
 
 ```swift
 // Types:
@@ -238,7 +238,7 @@ dynamic(type: s1, as: Foo.self)    //=> an `Optional<AnyType<Foo>>`
 ```
 </details>
 
-##Future Directions
+## Future Directions
 
 * We could allow extensions on `Type` and perhaps on `AnyType` to add members or conform them to protocols. This could allow us to remove some standard library hacks, like the non-`Equatable`-related `==` operators for types.
 
