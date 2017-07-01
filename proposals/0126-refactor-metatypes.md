@@ -244,10 +244,10 @@ dynamic(type: s1, as: Foo.self)    //=> an `Optional<AnyType<Foo>>`
 
 * It may be possible to implement parts of `Type` as a fairly ordinary final class, moving code from the runtime into the standard library.
 
-* We could offer a new global function which would allow type-safe access to classes by name.
+* We could offer a new global function which would allow type-safe access to subtypes by name.
 
 	```swift
-	func subtype<T : AnyObject>(of type: Type<T>, named: String) -> AnyType<T>? { ... }
+	func subtype<T>(of type: Type<T>, named: String) -> AnyType<T>? { ... }
 	```
 
 * We could offer other reflection and dynamic features on `Type` and `AnyType`.
@@ -274,5 +274,3 @@ Other names for `Type` and `AnyType` were considered:
 
 * Type: SpecificType, Metatype or ExactType.
 * AnyType: Subtype, Supertype, Base, BaseType, AnyMetatype, ExistentialType, ExistentialMetatype or TypeProtocol.
-
-Assuming that the accepted proposal decides to use **`Metatype<T>`**, **`AnyMetatype<T>`** over **`Type<T>`** and **`AnyType<T>`** would imply that the type `Type` would no longer be ambiguous to use in custome modules. However, such naming choice will affect the `type(of:)` function. It *might* be necessary to align the function name to `metatype(of:)` to avoid any confusion, which will result in another breaking change. Alternatively we could leave the function as `func type<T>(of instance: T) -> AnyMetatype<T>`.
